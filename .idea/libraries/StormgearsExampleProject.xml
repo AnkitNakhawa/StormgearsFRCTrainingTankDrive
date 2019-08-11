@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="StormgearsExampleProject">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/libs/StormgearsExampleProject.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
