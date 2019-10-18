@@ -7,7 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
@@ -15,39 +17,61 @@ import frc.robot.Robot;
  * An example command.  You can replace me with your own command.
  */
 public class JoyDrive extends Command {
-    private Joystick stick;
+    private XboxController stick;
+    double leftTrigVal;
+    double rightTrigVal;
+    double leftStickXVal;
+
 
     public JoyDrive() {
-        // Use requires() here to declare subsystem dependencies
         requires(Robot.driveSubsystem);
-    }
-
-    // Called just before this Command runs the first time
-    @Override
-    protected void initialize() {
         stick = Robot.oi.getJoystick();
+        leftTrigVal = stick.getTriggerAxis(GenericHID.Hand.kLeft);
+        rightTrigVal = stick.getTriggerAxis(GenericHID.Hand.kRight);
+        leftStickXVal = stick.getX(GenericHID.Hand.kLeft);
+
+            Robot.driveSubsystem.drive(rightTrigVal - leftTrigVal, rightTrigVal - leftTrigVal);
+
+            while (rightTrigVal >= .025 && leftStickXVal >= .025){
+            Robot.driveSubsystem.drive(rightTrigVal, 0);
+            break;
+        }
+        while (leftTrigVal >= .025 && leftStickXVal >= .025){
+            Robot.driveSubsystem.drive(leftTrigVal, -leftStickXVal);
+            break;
+        }
+        while (leftTrigVal >= .025 && leftStickXVal <= -.025){
+            Robot.driveSubsystem.drive(-leftStickXVal, leftTrigVal);
+            break;
+        }
+        while (rightTrigVal >= .025 && leftStickXVal <= -.025){
+            Robot.driveSubsystem.drive(0, rightTrigVal);
+            break;
+        }
     }
 
-    // Called repeatedly when this Command is scheduled to run
-    @Override
+
+
+    protected void initialize() {
+
+
+    }
+
+
     protected void execute() {
-        Robot.driveSubsystem.drive(stick.getX(), stick.getY(), stick.getZ(), 0.5);
+
     }
 
-    // Make this return true when this Command no longer needs to run execute()
-    @Override
+
     protected boolean isFinished() {
         return false;
     }
 
-    // Called once after isFinished returns true
-    @Override
+
     protected void end() {
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    @Override
+
     protected void interrupted() {
     }
 }
