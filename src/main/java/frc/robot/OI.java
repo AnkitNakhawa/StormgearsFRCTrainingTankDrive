@@ -7,13 +7,13 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 
 
 public class OI {
    private XboxController stick;
+
+    //make more methods here to retrieve stuff
 
    public OI(){
        stick = new XboxController(0);

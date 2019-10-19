@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -26,10 +25,18 @@ public class JoyDrive extends Command {
     public JoyDrive() {
         requires(Robot.driveSubsystem);
         stick = Robot.oi.getJoystick();
+
+
+        //ANKIT I THINK YOU NEED TO WRITE THIS CODE SOMEWHERE ELSE BECAUSE ALL OF IT IS IN THE CONSTRUCTOR
         leftTrigVal = stick.getTriggerAxis(GenericHID.Hand.kLeft);
         rightTrigVal = stick.getTriggerAxis(GenericHID.Hand.kRight);
-        leftStickXVal = stick.getX(GenericHID.Hand.kLeft);
 
+        //VEER CORRECTION:
+        // You would want the y axis of the left joystick, just think about it
+        leftStickXVal = stick.getY(GenericHID.Hand.kLeft);
+
+
+        //Explain this logic to me in person alright, becuase I am not sure that I follow here. -Veer
             Robot.driveSubsystem.drive(rightTrigVal - leftTrigVal, rightTrigVal - leftTrigVal);
 
             while (rightTrigVal >= .025 && leftStickXVal >= .025){
@@ -53,7 +60,7 @@ public class JoyDrive extends Command {
 
 
     protected void initialize() {
-
+        // You may want to enstantiate your variables here
 
     }
 
